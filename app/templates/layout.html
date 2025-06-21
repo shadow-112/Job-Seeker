@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="JobSeeker - Your Gateway to Career Success">
+    <title>JobSeeker - Find Your Dream Job</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a href="/" class="navbar-brand">
+            <i class="fas fa-briefcase"></i> JobSeeker
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                  <a href="/review" class="nav-link">
+                    <i class="fas fa-star"></i> Post a Review
+                  </a>
+                </li>
+                {% if current_user.usertype == 'Company' %}
+                  <li class="nav-item">
+                    <a href="/post_jobs" class="nav-link">
+                      <i class="fas fa-plus-circle"></i> Post a Job
+                    </a>
+                  </li>
+                {% endif %}
+                <li class="nav-item">
+                  <a href="/logout" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                  </a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a href="/register" class="nav-link">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/login" class="nav-link">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="container mt-3">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <!-- Main Content -->
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>About JobSeeker</h5>
+            <p>Your trusted platform for finding the perfect job or the ideal candidate.</p>
+          </div>
+          <div class="col-md-4">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="/" class="text-white">Home</a></li>
+              <li><a href="/show_jobs" class="text-white">Browse Jobs</a></li>
+              <li><a href="/review" class="text-white">Reviews</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Contact Us</h5>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-envelope"></i> support@jobseeker.com</li>
+              <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

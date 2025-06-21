@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_CONFIG=development
+      - FLASK_DEBUG=1
+    volumes:
+      - .:/app
+      - ./instance:/app/instance
+    depends_on:
+      - db
+    command: python run.py
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=jobportal
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data: 
